@@ -10,4 +10,10 @@ clientRoute.get("/hotels", clientController.getAllHotel);
 
 clientRoute.get("/hotels/:id", clientController.getHotelDetail);
 
+clientRoute.post("/signup", clientController.register);
+
+clientRoute.post("/login", clientController.logIn);
+
+clientRoute.get("/search", clientController.search);
+
 module.exports = clientRoute;

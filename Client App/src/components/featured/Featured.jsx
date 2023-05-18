@@ -1,40 +1,47 @@
 import "./featured.css";
+import img1 from "../../Data/City Image/Da Nang.jpg";
+import img2 from "../../Data/City Image/Ha Noi.jpg";
+import img3 from "../../Data/City Image/HCM.jpg";
+import { useEffect, useState } from "react";
+import fetchData from "../../Data/fetch";
 
 const Featured = () => {
+  const [hotels, setHotels] = useState([]);
+
+  useEffect(() => {
+    async function getData() {
+      const data = await fetchData();
+      setHotels(data.results);
+    }
+    getData();
+  }, []);
+
+  const hnProperties = hotels.filter((hotel) => hotel.city === "Ha Noi");
+  const dnProperties = hotels.filter((hotel) => hotel.city === "Da Nang");
+  const hcmProperties = hotels.filter((hotel) => hotel.city === "Ho Chi Minh");
+  // console.log(hnProperties, hcmProperties);
   return (
     <div className="featured">
       <div className="featuredItem">
-        <img
-          src="https://cf.bstatic.com/xdata/images/city/max500/690334.webp?k=b99df435f06a15a1568ddd5f55d239507c0156985577681ab91274f917af6dbb&o="
-          alt=""
-          className="featuredImg"
-        />
+        <img src={img1} alt="" className="featuredImg" />
         <div className="featuredTitles">
-          <h1>Dublin</h1>
-          <h2>123 properties</h2>
+          <h1>Da Nang</h1>
+          <h2>{dnProperties.length} properties</h2>
         </div>
       </div>
 
       <div className="featuredItem">
-        <img
-          src="https://cf.bstatic.com/xdata/images/city/max500/690334.webp?k=b99df435f06a15a1568ddd5f55d239507c0156985577681ab91274f917af6dbb&o="
-          alt=""
-          className="featuredImg"
-        />
+        <img src={img2} alt="" className="featuredImg" />
         <div className="featuredTitles">
-          <h1>Reno</h1>
-          <h2>533 properties</h2>
+          <h1>Ha Noi</h1>
+          <h2>{hnProperties.length} properties</h2>
         </div>
       </div>
       <div className="featuredItem">
-        <img
-          src="https://cf.bstatic.com/xdata/images/city/max500/689422.webp?k=2595c93e7e067b9ba95f90713f80ba6e5fa88a66e6e55600bd27a5128808fdf2&o="
-          alt=""
-          className="featuredImg"
-        />
+        <img src={img3} alt="" className="featuredImg" />
         <div className="featuredTitles">
-          <h1>Austin</h1>
-          <h2>532 properties</h2>
+          <h1>Ho Chi Minh</h1>
+          <h2>{hcmProperties.length} properties</h2>
         </div>
       </div>
     </div>
