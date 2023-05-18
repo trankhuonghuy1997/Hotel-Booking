@@ -14,21 +14,13 @@ const SearchItem = ({
 }) => {
   return (
     <div className="searchItem">
-      <img
-        src={img_url}
-        alt=""
-        className="siImg"
-      />
+      <img src={img_url} alt="" className="siImg" />
       <div className="siDesc">
         <h1 className="siTitle">{name}</h1>
-        <span className="siDistance">{distance} from center</span>
+        <span className="siDistance">{distance}m from center</span>
         <span className="siTaxiOp">{tag}</span>
-        <span className="siSubtitle">
-          {description}
-        </span>
-        <span className="siFeatures">
-          {type}
-        </span>
+        <span className="siSubtitle">{description}</span>
+        <span className="siFeatures">{type.toUpperCase()}</span>
         {/* If can cancel */}
         {free_cancel ? (
           <div>
@@ -37,7 +29,9 @@ const SearchItem = ({
               You can cancel later, so lock in this great price today!
             </span>
           </div>
-        ) : (<div></div>)}
+        ) : (
+          <div></div>
+        )}
       </div>
       <div className="siDetails">
         <div className="siRating">

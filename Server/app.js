@@ -4,6 +4,10 @@ const app = express();
 const cors = require("cors");
 const clientRoute = require("./Routes/client");
 app.use(cors());
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(clientRoute);
 
 mongoose

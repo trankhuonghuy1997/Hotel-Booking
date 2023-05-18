@@ -4,17 +4,34 @@ import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
 
 import { useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { DateRange } from "react-date-range";
 import SearchItem from "../../components/searchItem/SearchItem";
+import { useRef } from "react";
 
 const List = () => {
   const location = useLocation();
+  const destinationRef = useRef();
+  const state = location.state;
   const [destination, setDestination] = useState(location.state.destination);
   const [date, setDate] = useState(location.state.date);
   const [openDate, setOpenDate] = useState(false);
   const [options, setOptions] = useState(location.state.options);
+  const [searchResults, setSearchResults] = useState([]);
+  console.log(state);
+  async function fetchSearch(destination) {
+    const response = await fetch(
+      `http://localhost:5000/search?city=${destination}`
+    );
+    const data = await response.json();
+    console.log(data);
+    setSearchResults(data);
+  }
+
+  useEffect(() => {
+    fetchSearch(state.destination);
+  }, [state]);
 
   return (
     <div>
@@ -26,7 +43,11 @@ const List = () => {
             <h1 className="lsTitle">Search</h1>
             <div className="lsItem">
               <label>Destination</label>
-              <input placeholder={destination} type="text" />
+              <input
+                placeholder={destination}
+                type="text"
+                ref={destinationRef}
+              />
             </div>
             <div className="lsItem">
               <label>Check-in Date</label>
@@ -86,16 +107,35 @@ const List = () => {
                 </div>
               </div>
             </div>
-            <button>Search</button>
+            <button
+              onClick={() => {
+                fetchSearch(destinationRef.current.value);
+              }}
+            >
+              Search
+            </button>
           </div>
           <div className="listResult">
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
+            {searchResults &&
+              searchResults.map((result) => {
+                return (
+                  <SearchItem
+                    name={result.name}
+                    distance={result.distance}
+                    type={result.type}
+                    description={result.description}
+                    price={result.cheapestPrice}
+                    img_url={result.photos[0]}
+                  />
+                );
+              })}
+            {searchResults.length === 0 && state.destination && (
+              <h1>No Hotels Available!!!</h1>
+            )}
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

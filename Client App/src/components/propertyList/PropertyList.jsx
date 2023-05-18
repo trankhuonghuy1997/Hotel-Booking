@@ -1,6 +1,23 @@
 import "./propertyList.css";
+import { useEffect, useState } from "react";
+import fetchData from "../../Data/fetch";
 
 const PropertyList = () => {
+  const [hotels, setHotels] = useState([]);
+  useEffect(() => {
+    async function getData() {
+      const data = await fetchData();
+      setHotels(data.results);
+    }
+    getData();
+  });
+
+  const numberOdHt = hotels.filter((ht) => ht.type === "hotel");
+  const numberOdAp = hotels.filter((ht) => ht.type === "apartment");
+  const numberOdRs = hotels.filter((ht) => ht.type === "resort");
+  const numberOdVl = hotels.filter((ht) => ht.type === "villas");
+  const numberOdCb = hotels.filter((ht) => ht.type === "cabins");
+
   return (
     <div className="pList">
       <div className="pListItem">
@@ -11,7 +28,7 @@ const PropertyList = () => {
         />
         <div className="pListTitles">
           <h1>Hotels</h1>
-          <h2>233 hotels</h2>
+          <h2>{numberOdHt.length} Hotels</h2>
         </div>
       </div>
       <div className="pListItem">
@@ -22,7 +39,7 @@ const PropertyList = () => {
         />
         <div className="pListTitles">
           <h1>Apartments</h1>
-          <h2>2331 hotels</h2>
+          <h2>{numberOdAp.length} Apartments</h2>
         </div>
       </div>
       <div className="pListItem">
@@ -33,7 +50,7 @@ const PropertyList = () => {
         />
         <div className="pListTitles">
           <h1>Resorts</h1>
-          <h2>2331 hotels</h2>
+          <h2>{numberOdRs.length} Resorts</h2>
         </div>
       </div>
       <div className="pListItem">
@@ -44,7 +61,7 @@ const PropertyList = () => {
         />
         <div className="pListTitles">
           <h1>Villas</h1>
-          <h2>2331 hotels</h2>
+          <h2>{numberOdVl.length} Villas</h2>
         </div>
       </div>
       <div className="pListItem">
@@ -55,7 +72,7 @@ const PropertyList = () => {
         />
         <div className="pListTitles">
           <h1>Cabins</h1>
-          <h2>2331 hotels</h2>
+          <h2>{numberOdCb.length} Cabins</h2>
         </div>
       </div>
     </div>

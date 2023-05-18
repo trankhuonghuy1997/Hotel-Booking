@@ -1,4 +1,3 @@
-import AuthenForm from "../../components/authen/authen";
 import Featured from "../../components/featured/Featured";
 import FeaturedProperties from "../../components/featuredProperties/FeaturedProperties";
 import Footer from "../../components/footer/Footer";
@@ -8,40 +7,24 @@ import Navbar from "../../components/navbar/Navbar";
 import PropertyList from "../../components/propertyList/PropertyList";
 import "./home.css";
 import { useState, useEffect } from "react";
+import fetchData from "../../Data/fetch";
+import { useSelector } from "react-redux";
 
 const Home = () => {
-  const [login, setLogin] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
   const [hotels, setHotels] = useState([]);
+  const state = useSelector((state) => state.login);
   useEffect(() => {
-    async function fetchData() {
-      const respone = await fetch("http://localhost:5000/hotels");
-      const data = await respone.json();
+    async function getData() {
+      const data = await fetchData();
       setHotels(data.results);
     }
-
-    fetchData();
+    getData();
   }, []);
 
-  const onLogin = () => {
-    if (!isLogin) {
-      setIsLogin(true);
-    }
-  };
-
-  const onSignUp = () => {
-    if (isLogin) {
-      setIsLogin(false);
-    }
-  };
-
-  const onSubmit = () => {
-    setLogin(true);
-  };
   return (
     <div>
-      <Navbar onLogin={onLogin} onSignUp={onSignUp} login={login} />
-      {login && (
+      <Navbar />
+      {state.isLogin && (
         <>
           <Header />
           <div className="homeContainer">
@@ -55,7 +38,6 @@ const Home = () => {
           </div>
         </>
       )}
-      {!login && <AuthenForm islogin={isLogin} onSubmit={onSubmit} />}
     </div>
   );
 };

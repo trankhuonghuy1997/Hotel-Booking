@@ -8,7 +8,7 @@ const FeaturedProperties = (props) => {
     <div className="fp">
       {props.hotels.map((hotel) => {
         return (
-          <div key={hotel.id} className="fpItem">
+          <div key={hotel._id} className="fpItem">
             <img src={hotel.photos[0]} alt="" className="fpImg" />
             <span className="fpName">
               <a href={`/hotels/${hotel._id}`} target="_blank" rel="noreferrer">
