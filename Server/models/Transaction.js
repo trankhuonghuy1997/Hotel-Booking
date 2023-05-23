@@ -7,6 +7,7 @@ const transactionSchema = new Schema({
     type: String,
     require: true,
   },
+
   hotel: {
     type: Schema.Types.ObjectId,
     require: true,

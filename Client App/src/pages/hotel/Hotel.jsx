@@ -10,14 +10,18 @@ import {
   faCircleXmark,
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
+import BookingPage from "../booking/BookingPage";
+import { SearchContext } from "../../context/searchContext";
 
 const Hotel = () => {
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
+  const [roomsList, setRoomsList] = useState([]);
   const id = useParams("id");
   const [hotel, setHotel] = useState({});
+  const [showBookingPage, setShowBookingPage] = useState(false);
 
   useEffect(() => {
     async function fetchDetail(id) {
@@ -29,6 +33,26 @@ const Hotel = () => {
     fetchDetail(id);
   }, [id]);
 
+  const getRoomsDetail = async (hotel) => {
+    const roomUrl = hotel.rooms.map((room) => {
+      return `http://localhost:5000/rooms/${room}`;
+    });
+
+    const result = await Promise.all(
+      roomUrl.map((url) => fetch(url).then((res) => res.json()))
+    );
+    const data = result.map((res) => {
+      return { ...res[0] };
+    });
+
+    setRoomsList(data);
+  };
+
+  const showBookingPagehandler = () => {
+    setShowBookingPage((showBookingPage) => !showBookingPage);
+    getRoomsDetail(hotel);
+  };
+
   const handleOpen = (i) => {
     setSlideNumber(i);
     setOpen(true);
@@ -37,7 +61,6 @@ const Hotel = () => {
 
   const handleMove = (direction) => {
     let newSlideNumber;
-    console.log(length);
 
     if (direction === "l") {
       newSlideNumber = slideNumber === 0 ? length - 1 : slideNumber - 1;
@@ -48,6 +71,13 @@ const Hotel = () => {
 
     setSlideNumber(newSlideNumber);
   };
+
+  const { destination, date, options } = useContext(SearchContext);
+
+  const hiringDate =
+    new Date(date[0].endDate).getTime() - new Date(date[0].startDate).getTime();
+
+  const day = hiringDate / 1000 / 86400;
 
   return (
     <div>
@@ -82,7 +112,9 @@ const Hotel = () => {
         )}
         {hotel && (
           <div className="hotelWrapper">
-            <button className="bookNow">Reserve or Book Now!</button>
+            <button className="bookNow" onClick={showBookingPagehandler}>
+              Reserve or Book Now!
+            </button>
             <h1 className="hotelTitle">{hotel.name}</h1>
             <div className="hotelAddress">
               <FontAwesomeIcon icon={faLocationDot} />
@@ -114,19 +146,23 @@ const Hotel = () => {
                 <p className="hotelDesc">{hotel.desc}</p>
               </div>
               <div className="hotelDetailsPrice">
-                <h1>Perfect for a 9-night stay!</h1>
+                <h1>Perfect for a {day}-night stay!</h1>
                 <span>
                   Located in the real heart of Krakow, this property has an
                   excellent location score of 9.8!
                 </span>
                 <h2>
-                  <b>${hotel.cheapestPrice}</b> (1 nights)
+                  <b>${hotel.cheapestPrice * day * options.room}</b> <br />(
+                  {day} nights - {options.room} rooms)
                 </h2>
-                <button>Reserve or Book Now!</button>
+                <button onClick={showBookingPagehandler}>
+                  Reserve or Book Now!
+                </button>
               </div>
             </div>
           </div>
         )}
+        {showBookingPage && <BookingPage roomsList={roomsList} />}
         <MailList />
         <Footer />
       </div>

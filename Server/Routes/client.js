@@ -6,6 +6,8 @@ const clientRoute = express.Router();
 
 clientRoute.get("/rooms", clientController.getAllRoom);
 
+clientRoute.get("/rooms/:roomId", clientController.getRoomDetail);
+
 clientRoute.get("/hotels", clientController.getAllHotel);
 
 clientRoute.get("/hotels/:id", clientController.getHotelDetail);
@@ -15,5 +17,7 @@ clientRoute.post("/signup", clientController.register);
 clientRoute.post("/login", clientController.logIn);
 
 clientRoute.get("/search", clientController.search);
+
+clientRoute.post("/transaction", clientController.postTransaction);
 
 module.exports = clientRoute;

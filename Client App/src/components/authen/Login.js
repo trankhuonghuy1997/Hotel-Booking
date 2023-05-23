@@ -19,8 +19,8 @@ const Login = () => {
     e.preventDefault();
 
     const user = {
-      enteredEmail: enteredEmail.current.value,
-      enteredPassWord: enteredPassWord.current.value,
+      email: enteredEmail.current.value,
+      password: enteredPassWord.current.value,
     };
     fetch("http://localhost:5000/login", {
       method: "post",

@@ -3,11 +3,12 @@ const mongoose = require("mongoose");
 const app = express();
 const cors = require("cors");
 const clientRoute = require("./Routes/client");
+const adminRoute = require("./Routes/admin");
 app.use(cors());
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use("/admin", adminRoute);
 app.use(clientRoute);
 
 mongoose

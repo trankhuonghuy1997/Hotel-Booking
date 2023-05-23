@@ -15,20 +15,24 @@ const hoteSchema = new Schema({
     type: String,
     require: true,
   },
+  title: {
+    type: String,
+    require: true,
+  },
   address: {
-    type: Number,
+    type: String,
     require: true,
   },
   distance: {
     type: Number,
     require: true,
   },
-  photos: {
-    type: Boolean,
+  cheapestPrice: {
+    type: Number,
     require: true,
   },
   photos: {
-    type: Boolean,
+    type: [String],
     require: true,
   },
   desc: {
@@ -37,10 +41,6 @@ const hoteSchema = new Schema({
   },
   rating: {
     type: Number,
-    require: true,
-  },
-  photos: {
-    type: Array,
     require: true,
   },
   featured: {

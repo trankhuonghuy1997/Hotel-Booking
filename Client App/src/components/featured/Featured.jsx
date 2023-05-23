@@ -3,14 +3,14 @@ import img1 from "../../Data/City Image/Da Nang.jpg";
 import img2 from "../../Data/City Image/Ha Noi.jpg";
 import img3 from "../../Data/City Image/HCM.jpg";
 import { useEffect, useState } from "react";
-import fetchData from "../../Data/fetch";
+import fetchDataHotel from "../../Data/fetch";
 
 const Featured = () => {
   const [hotels, setHotels] = useState([]);
 
   useEffect(() => {
     async function getData() {
-      const data = await fetchData();
+      const data = await fetchDataHotel();
       setHotels(data.results);
     }
     getData();

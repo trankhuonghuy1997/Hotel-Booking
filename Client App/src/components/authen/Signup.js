@@ -7,13 +7,15 @@ import Navbar from "../navbar/Navbar";
 const Login = () => {
   const enteredEmail = useRef();
   const enteredPassWord = useRef();
+  const enteredUserName = useRef();
   const navigate = useNavigate();
 
   const submitHandler = (e) => {
     e.preventDefault();
     const user = {
-      enteredEmail: enteredEmail.current.value,
-      enteredPassWord: enteredPassWord.current.value,
+      email: enteredEmail.current.value,
+      password: enteredPassWord.current.value,
+      userName: enteredUserName.current.value,
     };
     console.log(user);
 
@@ -38,6 +40,14 @@ const Login = () => {
       <div className={classes.main}>
         <h1>Sign Up</h1>
         <form action="/login" method="post" onSubmit={submitHandler}>
+          <input
+            className={classes.input_field}
+            type="text"
+            required
+            placeholder="Enter User Name"
+            ref={enteredUserName}
+            name="userName"
+          ></input>
           <input
             className={classes.input_field}
             type="email"

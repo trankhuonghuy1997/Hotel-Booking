@@ -4,6 +4,7 @@ import Hotel from "./pages/hotel/Hotel";
 import List from "./pages/list/List";
 import Login from "./components/authen/Login";
 import Signup from "./components/authen/Signup";
+import Transaction from "./pages/transaction/Transaction";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/hotels/:id" element={<Hotel />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/transaction" element={<Transaction />} />
       </Routes>
     </BrowserRouter>
   );

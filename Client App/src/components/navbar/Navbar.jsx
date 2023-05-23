@@ -8,14 +8,15 @@ const Navbar = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const signUpHandler = () => {
-    // props.onSignUp();
     dispatch(loginAction.signUp(state));
     navigate("/signup");
   };
 
+  const toHomePagehandler = () => {
+    navigate("/");
+  };
+
   const loginHandler = () => {
-    // props.onLogin();
-    // dispatch(loginAction.login(state));
     dispatch(loginAction.signUp(state));
     navigate("/login");
   };
@@ -32,7 +33,9 @@ const Navbar = (props) => {
       {!state.isLogin && (
         <div className="navbar">
           <div className="navContainer">
-            <span className="logo">Booking Website</span>
+            <p onClick={toHomePagehandler} className="logo">
+              Booking Website
+            </p>
             <div className="navItems">
               <button className="navButton" onClick={signUpHandler}>
                 Sign Up
@@ -48,7 +51,9 @@ const Navbar = (props) => {
       {state.isLogin && (
         <div className="navbar">
           <div className="navContainer">
-            <span className="logo">Booking Website</span>
+            <span className="logo" onClick={toHomePagehandler}>
+              Booking Website
+            </span>
             <div className="navItems">
               <p>{state.token}</p>
               <button className="navButton">Transacsions</button>

@@ -7,7 +7,7 @@ import Navbar from "../../components/navbar/Navbar";
 import PropertyList from "../../components/propertyList/PropertyList";
 import "./home.css";
 import { useState, useEffect } from "react";
-import fetchData from "../../Data/fetch";
+import fetchDataHotel from "../../Data/fetch";
 import { useSelector } from "react-redux";
 
 const Home = () => {
@@ -15,7 +15,8 @@ const Home = () => {
   const state = useSelector((state) => state.login);
   useEffect(() => {
     async function getData() {
-      const data = await fetchData();
+      const data = await fetchDataHotel(3);
+      console.log(data);
       setHotels(data.results);
     }
     getData();

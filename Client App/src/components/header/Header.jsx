@@ -9,13 +9,16 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./header.css";
 import { DateRange } from "react-date-range";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { SearchContext } from "../../context/searchContext";
 
 const Header = ({ type }) => {
+  const state = useSelector((state) => state.login);
   const [destination, setDestination] = useState("");
   const [openDate, setOpenDate] = useState(false);
   const [date, setDate] = useState([
@@ -33,6 +36,7 @@ const Header = ({ type }) => {
   });
 
   const navigate = useNavigate();
+  const { dispatch } = useContext(SearchContext);
 
   const handleOption = (name, operation) => {
     setOptions((prev) => {
@@ -44,6 +48,7 @@ const Header = ({ type }) => {
   };
 
   const handleSearch = () => {
+    dispatch({ type: "NEW_SEARCH", payload: { destination, date, options } });
     navigate("/hotels", { state: { destination, date, options } });
   };
 
@@ -85,7 +90,9 @@ const Header = ({ type }) => {
               Get rewarded for your travels – unlock instant savings of 10% or
               more with a free account
             </p>
-            <button className="headerBtn">Sign in / Register</button>
+            {!state.isLogin && (
+              <button className="headerBtn">Sign in / Register</button>
+            )}
             <div className="headerSearch">
               <div className="headerSearchItem">
                 <FontAwesomeIcon icon={faBed} className="headerIcon" />

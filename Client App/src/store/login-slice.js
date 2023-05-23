@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 const email = localStorage.getItem("name");
+const isLogin = email ? true : false;
 const initialLoginState = {
-  isLogin: false,
+  isLogin: isLogin,
   isSignUp: false,
   token: JSON.parse(email),
 };

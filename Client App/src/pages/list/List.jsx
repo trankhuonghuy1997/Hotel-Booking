@@ -118,16 +118,7 @@ const List = () => {
           <div className="listResult">
             {searchResults &&
               searchResults.map((result) => {
-                return (
-                  <SearchItem
-                    name={result.name}
-                    distance={result.distance}
-                    type={result.type}
-                    description={result.description}
-                    price={result.cheapestPrice}
-                    img_url={result.photos[0]}
-                  />
-                );
+                return <SearchItem result={result} />;
               })}
             {searchResults.length === 0 && state.destination && (
               <h1>No Hotels Available!!!</h1>
