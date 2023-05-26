@@ -7,6 +7,10 @@ const transactionSchema = new Schema({
     type: String,
     require: true,
   },
+  userId: {
+    type: Schema.Types.ObjectId,
+    require: true,
+  },
 
   hotel: {
     type: Schema.Types.ObjectId,

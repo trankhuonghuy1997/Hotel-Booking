@@ -1,0 +1,69 @@
+.container {
+  min-width: 1024px;
+  padding: 20px;
+}
+.header {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+.header h3 {
+  text-transform: uppercase;
+  font-size: 16px;
+  color: #666;
+  font-weight: 500;
+}
+.header h5 {
+  font-size: 18px;
+  padding: 20px 0;
+}
+
+.icon {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+.user i {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  color: orangered !important;
+  background-color: rgb(240, 183, 162);
+}
+.orders i {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  color: rgba(242, 201, 19, 0.766) !important;
+  background-color: rgb(63, 63, 33);
+}
+
+.earning i {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  color: green !important;
+  background-color: rgb(90, 136, 90);
+}
+
+.balance i {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  color: purple !important;
+  background-color: rgb(107, 74, 107);
+}

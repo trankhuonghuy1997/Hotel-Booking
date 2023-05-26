@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const BookingPage = ({ roomsList }) => {
+  console.log(roomsList);
   const fullNameRef = useRef();
   const emailRef = useRef();
   const selectPaymentRef = useRef();
@@ -15,14 +16,14 @@ const BookingPage = ({ roomsList }) => {
   const [selectRoom, setSelectRoom] = useState([]);
   const navigate = useNavigate();
 
-  const handleSelect = (e) => {
+  const handleSelect = (e, price) => {
     const checked = e.target.checked;
     const value = e.target.value;
-    console.log(checked, value);
+
     setSelectRoom(
       checked
-        ? [...selectRoom, value]
-        : selectRoom.filter((item) => item !== value)
+        ? [...selectRoom, { roomNumber: value, price: price }]
+        : selectRoom.filter((item) => item.roomNumber !== value)
     );
   };
 
@@ -37,19 +38,22 @@ const BookingPage = ({ roomsList }) => {
   const hiringDate =
     new Date(date[0].endDate).getTime() - new Date(date[0].startDate).getTime();
 
-  const day = hiringDate / 1000 / 86400;
-  console.log(date);
+  const day = hiringDate / 1000 / 86400 + 1;
+  const price = selectRoom
+    .map((item) => item.price)
+    .reduce((acc, curr) => acc + curr, 0);
+  const userId = JSON.parse(localStorage.getItem("token"));
 
   const handleClick = (e) => {
     e.preventDefault();
     const body = {
       user: fullNameRef.current.value,
-      // userId:
+      userId: userId,
       hotel: hotelId,
       room: selectRoom,
       dateStart: new Date(date[0].startDate),
       dateEnd: new Date(date[0].endDate),
-      price: 123,
+      price: price,
       payment: selectPaymentRef.current.value,
       status: "check in",
     };
@@ -57,9 +61,8 @@ const BookingPage = ({ roomsList }) => {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+    });
+
     navigate("/transaction");
   };
 
@@ -142,7 +145,9 @@ const BookingPage = ({ roomsList }) => {
                             type="checkbox"
                             id={`${room._id}-${roomNumber}`}
                             value={roomNumber}
-                            onChange={handleSelect}
+                            onChange={(e) => {
+                              handleSelect(e, room.price);
+                            }}
                           ></input>
                         </form>
                       );
@@ -156,7 +161,7 @@ const BookingPage = ({ roomsList }) => {
 
         <div className={classes.checkout}>
           <div className={classes.payment}>
-            <h1>Total Bill: ${day}</h1>
+            <h1>Total Bill: ${day * price}</h1>
             <select ref={selectPaymentRef}>
               <option>Select Payment Method</option>
               <option>Credit Card</option>

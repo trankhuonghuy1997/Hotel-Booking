@@ -1,0 +1,9 @@
+.title {
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+}
+.container {
+  min-width: 1024px;
+  padding: 20px;
+}

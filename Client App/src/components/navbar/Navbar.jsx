@@ -2,9 +2,15 @@ import "./navbar.css";
 import { useSelector, useDispatch } from "react-redux";
 import { loginAction } from "../../store/login-slice";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const Navbar = (props) => {
   const state = useSelector((state) => state.login);
+  let [email, setEmail] = useState("");
+  useEffect(() => {
+    const email = JSON.parse(localStorage.getItem("name"));
+    setEmail(email);
+  }, [email]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const signUpHandler = () => {
@@ -26,6 +32,9 @@ const Navbar = (props) => {
     localStorage.removeItem("name");
     localStorage.removeItem("token");
     navigate("/login");
+  };
+  const toTransactionpage = () => {
+    navigate("/transaction");
   };
 
   return (
@@ -55,8 +64,10 @@ const Navbar = (props) => {
               Booking Website
             </span>
             <div className="navItems">
-              <p>{state.token}</p>
-              <button className="navButton">Transacsions</button>
+              <p>{email}</p>
+              <button className="navButton" onClick={toTransactionpage}>
+                Transacsions
+              </button>
               <button className="navButton" onClick={logoutHandler}>
                 Logout
               </button>

@@ -1,0 +1,19 @@
+.container {
+  margin-left: 20px;
+  margin-top: 20px;
+  flex: 1;
+}
+
+.title {
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn {
+  color: rgb(24, 126, 24);
+  border: 1px solid rgb(19, 146, 19);
+  padding: 6px 20px;
+  cursor: pointer;
+  background-color: #fff;
+}

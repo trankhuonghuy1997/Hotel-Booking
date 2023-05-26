@@ -113,11 +113,9 @@ exports.logIn = (req, res, next) => {
 
 exports.search = (req, res, next) => {
   const city = decodeURIComponent(req.query.city);
-  const date = +req.query.date;
-  const room = req.query.room;
+
   console.log(city);
 
-  let searchResult = [];
   Hotels.find({ city: city })
     .then((hotel) => {
       res.writeHead(200, { "Content-Type": "application/json" });
@@ -132,4 +130,12 @@ exports.postTransaction = (req, res, next) => {
   transaction.save();
   console.log(transaction);
   res.json(newTransaction);
+};
+
+exports.getTransaction = (req, res, next) => {
+  const userId = req.params.userId;
+  Transaction.find({ userId: userId }).then((results) => {
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(results));
+  });
 };

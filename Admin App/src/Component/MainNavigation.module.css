@@ -1,0 +1,57 @@
+:root {
+  --main-color: #7761ff;
+}
+nav {
+  border-right: 0.5px solid #e6e4e4;
+  padding: 0 20px;
+}
+
+.adContainer {
+  width: 100%;
+  min-width: 1024px;
+  margin: 20px 0 0 20px;
+}
+.adContainer > h1 {
+  padding: 5px;
+  color: var(--main-color);
+}
+.container {
+  width: 100%;
+  display: flex;
+  padding-right: 40px;
+}
+.container nav {
+  min-width: fit-content;
+}
+
+span h1 {
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #666;
+}
+span ul {
+  list-style: none;
+  padding: 10px;
+}
+a {
+  text-decoration: none;
+  color: #000;
+  font-weight: 400;
+}
+span ul li {
+  padding: 5px 0;
+  cursor: pointer;
+  text-decoration: none;
+}
+span ul li:hover,
+span ul li:active,
+span ul li a:hover,
+span ul li a:active {
+  text-decoration: underline;
+  color: var(--main-color);
+}
+
+i {
+  color: var(--main-color);
+  width: 25px;
+}

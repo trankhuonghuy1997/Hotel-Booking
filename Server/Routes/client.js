@@ -20,4 +20,6 @@ clientRoute.get("/search", clientController.search);
 
 clientRoute.post("/transaction", clientController.postTransaction);
 
+clientRoute.get("/transaction/:userId", clientController.getTransaction);
+
 module.exports = clientRoute;

@@ -25,7 +25,6 @@ const List = () => {
       `http://localhost:5000/search?city=${destination}`
     );
     const data = await response.json();
-    console.log(data);
     setSearchResults(data);
   }
 

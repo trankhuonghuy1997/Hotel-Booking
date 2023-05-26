@@ -1,0 +1,38 @@
+.main {
+  margin: 50px auto 0;
+  width: 50%;
+}
+
+.main h1 {
+  color: #7761ff;
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: 20px auto;
+  padding: 0 10px;
+}
+
+.input_field {
+  padding: 10px 10px;
+  margin-bottom: 10px;
+  font-size: 18px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #e8f0fe;
+}
+
+.button {
+  background-color: #7761ff;
+  color: aliceblue;
+  font-weight: 500;
+  border: none;
+  padding: 10px 10px;
+  margin-bottom: 10px;
+  font-size: 18px;
+  border-radius: 5px;
+  cursor: pointer;
+}

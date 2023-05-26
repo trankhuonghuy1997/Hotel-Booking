@@ -1,8 +1,31 @@
 const Rooms = require("../models/Room");
 const Hotels = require("../models/Hotel");
 const User = require("../models/User");
+const Transaction = require("../models/Transaction");
+const bcrypt = require("bcrypt");
 
 // Hotel controller
+exports.getAllHotel = (req, res, next) => {
+  Hotels.find()
+    .then((result) => {
+      res.writeHead(200, {
+        "Content-Type": "application/json",
+      });
+      res.end(JSON.stringify(result));
+    })
+    .catch((err) => console.log(err));
+};
+
+exports.getHotelDetail = (req, res, next) => {
+  const hotelId = req.params.id;
+  Hotels.findOne({ _id: hotelId })
+    .then((hotel) => {
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify(hotel));
+    })
+    .catch((err) => console.log(err));
+};
+
 exports.createHotel = (req, res, next) => {
   const name = req.body.name;
   const type = req.body.type;
@@ -57,6 +80,29 @@ exports.updateHotel = (req, res, next) => {
 
 // Room controller
 
+exports.getAllRoom = (req, res, next) => {
+  Rooms.find()
+    .then((result) => {
+      res.writeHead(200, {
+        "Content-Type": "application/json",
+      });
+      res.end(JSON.stringify(result));
+    })
+    .catch((err) => console.log(err));
+};
+
+exports.getRoomDetail = (req, res, next) => {
+  const roomId = req.params.id;
+  Rooms.find({ _id: roomId })
+    .then((result) => {
+      res.writeHead(200, {
+        "Content-Type": "application/json",
+      });
+      res.end(JSON.stringify(result));
+    })
+    .catch((err) => console.log(err));
+};
+
 exports.createRoom = async (req, res, next) => {
   const hotelId = req.params.hotelId;
   const newRoom = new Rooms(req.body);
@@ -75,13 +121,18 @@ exports.createRoom = async (req, res, next) => {
 };
 
 exports.deleteRoom = async (req, res, next) => {
-  const hotelId = req.params.hotelId;
-  Rooms.findByIdAndDelete(req.params.id)
-    .then(() => {
-      Hotels.findByIdAndUpdate(hotelId, { $pull: { rooms: req.params.id } });
+  const id = req.params.id;
+
+  Rooms.findByIdAndDelete(id)
+    .then((room) => {
+      console.log("Room", room);
+      Hotels.findOneAndUpdate(
+        { rooms: { $elemMatch: { $eq: id } } },
+        { $pull: { rooms: id } }
+      ).then((hotel) => console.log("Hotel", hotel));
     })
     .then(() => {
-      res.status(200).json("Room has been deleted.");
+      res.status(200).json({ message: "Room has been deleted." });
     })
     .catch((err) => console.log(err));
 };
@@ -92,4 +143,45 @@ exports.updateRoom = (req, res, next) => {
     console.log(Room);
   });
   res.status(200).send("Room has been updated");
+};
+
+// User controller
+
+exports.getAllUser = (req, res, next) => {
+  User.find()
+    .then((result) => {
+      res.writeHead(200, {
+        "Content-Type": "application/json",
+      });
+      res.end(JSON.stringify(result));
+    })
+    .catch((err) => console.log(err));
+};
+
+// Transaction controller
+exports.getAllTransaction = (req, res, next) => {
+  Transaction.find()
+    .then((result) => {
+      res.writeHead(200, {
+        "Content-Type": "application/json",
+      });
+      res.end(JSON.stringify(result));
+    })
+    .catch((err) => console.log(err));
+};
+
+// login
+exports.login = (req, res, next) => {
+  const userLogin = req.body;
+  User.findOne({ email: userLogin.email }).then((user) => {
+    if (!user) {
+      res.status(404).json({ message: "User is not define!", status: 404 });
+    } else if (!bcrypt.compareSync(userLogin.password, user.password)) {
+      res.status(401).json({ message: "Wrong password", status: 401 });
+    } else if (!user.isAdmin) {
+      res.status(402).json({ message: "You are not allow", status: 402 });
+    } else {
+      res.status(200).json({ message: "Login successfull!", status: 200 });
+    }
+  });
 };
